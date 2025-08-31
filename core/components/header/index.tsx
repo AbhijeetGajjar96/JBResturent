@@ -18,16 +18,16 @@ import { search } from './_actions/search';
 import { switchCurrency } from './_actions/switch-currency';
 import { HeaderFragment, HeaderLinksFragment } from './fragment';
 
-// Shopify-style CSS imports
+// Simple CSS imports without onLoad handlers
 const HeaderStyles = () => (
   <>
-    <link rel="stylesheet" href="/styles/component-list-menu.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
-    <link rel="stylesheet" href="/styles/component-search.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
-    <link rel="stylesheet" href="/styles/component-menu-drawer.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
-    <link rel="stylesheet" href="/styles/component-cart-notification.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
-    <link rel="stylesheet" href="/styles/component-price.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
-    <link rel="stylesheet" href="/styles/component-mega-menu.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
-    <link rel="stylesheet" href="/styles/header-enhanced.css" media="print" onLoad={(e) => (e.currentTarget.media = 'all')} />
+    <link rel="stylesheet" href="/styles/component-list-menu.css" />
+    <link rel="stylesheet" href="/styles/component-search.css" />
+    <link rel="stylesheet" href="/styles/component-menu-drawer.css" />
+    <link rel="stylesheet" href="/styles/component-cart-notification.css" />
+    <link rel="stylesheet" href="/styles/component-price.css" />
+    <link rel="stylesheet" href="/styles/component-mega-menu.css" />
+    <link rel="stylesheet" href="/styles/header-enhanced.css" />
   </>
 );
 
@@ -187,7 +187,6 @@ export const Header = async () => {
           switchCurrencyLabel: t('SwitchCurrency.label'),
         }}
       />
-      <WhatsAppButton />
     </>
   );
 };
