@@ -4,10 +4,17 @@ import { forwardRef, useEffect, useState } from 'react';
 
 import { Banner } from '@/vibes/soul/primitives/banner';
 import { Navigation } from '@/vibes/soul/primitives/navigation';
+import { Logo } from '@/vibes/soul/primitives/logo';
+import { Streamable } from '@/vibes/soul/lib/streamable';
 
 interface Props {
   navigation: React.ComponentPropsWithoutRef<typeof Navigation>;
   banner?: React.ComponentPropsWithoutRef<typeof Banner>;
+  logo?: Streamable<string | { src: string; alt: string } | null>;
+  logoHref?: string;
+  logoLabel?: string;
+  cartCount?: number;
+  searchPlaceholder?: string;
 }
 
 // WhatsApp button removed for local development
@@ -41,7 +48,7 @@ const HeaderDrawer = ({ links }: { links: Array<{ label: string; href: string }>
 );
 
 // Header Search Component
-const HeaderSearch = ({ inputId }: { inputId: string }) => (
+const HeaderSearch = ({ inputId, searchPlaceholder }: { inputId: string; searchPlaceholder?: string }) => (
   <div className="header__search small-hide medium-hide">
     <details>
       <summary className="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-label="Search" aria-expanded="false">
@@ -57,7 +64,7 @@ const HeaderSearch = ({ inputId }: { inputId: string }) => (
                 id={inputId}
                 name="q" 
                 defaultValue="" 
-                placeholder="Search" 
+                placeholder={searchPlaceholder || "Search"} 
                 role="combobox" 
                 aria-expanded="false" 
                 aria-label="Search" 
@@ -81,7 +88,7 @@ const HeaderDropdownMenu = ({ links }: { links: Array<{ label: string; href: str
       {links.map((link, index) => (
         <li key={index}>
           <a href={link.href} className="header__menu-item list-menu__item link link--text focus-inset">
-            <span>{link.label}</span>
+            {link.label}
           </a>
         </li>
       ))}
@@ -90,7 +97,7 @@ const HeaderDropdownMenu = ({ links }: { links: Array<{ label: string; href: str
 );
 
 export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
-  ({ navigation, banner }, ref) => {
+  ({ navigation, banner, logo, logoHref = '/', logoLabel = 'Home', cartCount, searchPlaceholder }, ref) => {
     const [bannerElement, setBannerElement] = useState<HTMLElement | null>(null);
     const [bannerHeight, setBannerHeight] = useState(0);
     const [links, setLinks] = useState<Array<{ label: string; href: string }>>([]);
@@ -135,153 +142,62 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
     return (
       <div ref={ref}>
         {/* CSS imports for header styling */}
+        <link rel="stylesheet" href="/styles/base.css" />
         <link rel="stylesheet" href="/styles/header-main.css" />
         
         {/* Banner */}
         {banner && <Banner ref={setBannerElement} {...banner} />}
         
-        {/* Header with CSS Classes and Inline Fallback Styles */}
-        <div 
-          data-sticky-type="always" 
-          className="section-header"
-          style={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 1000,
-            background: '#ffffff',
-            borderBottom: '2px solid #e5e7eb',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-          }}
-        >
-          <div 
-            className="header-wrapper"
-            style={{
-              maxWidth: '1200px',
-              margin: '0 auto',
-              padding: '0 20px'
-            }}
-          >
-            <header 
-              className="header"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '15px 0',
-                minHeight: '80px'
-              }}
-            >
+        {/* Shopify Header with proper CSS classes */}
+        <div className="section-header">
+          <div className="header-wrapper header-wrapper--border-bottom">
+            <header className="header header--middle-center page-width header--has-menu">
               {/* Header Drawer (Mobile Menu) */}
               <HeaderDrawer links={links} />
               
               {/* Header Search for top-center logo position */}
-              <HeaderSearch inputId="Search-In-Modal-1" />
+              <HeaderSearch inputId="Search-In-Modal-1" searchPlaceholder={searchPlaceholder} />
               
               {/* Logo - Top section (not middle-center) */}
-
+              
               
               {/* Navigation Menu - Dropdown style */}
               <HeaderDropdownMenu links={links} />
               
               {/* Logo - Middle section (middle-center position) */}
-              <div 
-                className="header__heading"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flex: 1
-                }}
-              >
-                <a href="/" className="header__heading-link link link--text focus-inset">
-                  <div 
-                    className="header__heading-logo-wrapper"
-                    style={{ textAlign: 'center' }}
-                  >
-                    <span 
-                      className="h2"
-                      style={{
-                        fontSize: '32px',
-                        fontWeight: 'bold',
-                        color: '#e67e22',
-                        margin: 0
-                      }}
-                    >
-                      🍽️ JBResturent
-                    </span>
-                  </div>
-                </a>
+              <div className="header__heading">
+                <Logo
+                  className="header__heading-link link link--text focus-inset"
+                  href={logoHref}
+                  label={logoLabel}
+                  logo={logo}
+                  width={120}
+                  height={40}
+                />
               </div>
               
               {/* Header Icons - Exact Shopify structure */}
-              <div 
-                className="header__icons"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '15px'
-                }}
-              >
+              <div className="header__icons">
                 <div className="desktop-localization-wrapper">
                   {/* Country/Language selectors can be added here */}
                 </div>
                 
                 {/* Header Search */}
-                <HeaderSearch inputId="Search-In-Modal" />
+                <HeaderSearch inputId="Search-In-Modal" searchPlaceholder={searchPlaceholder} />
                 
                 {/* Account */}
-                <a 
-                  href="/login" 
-                  className="header__icon header__icon--account link focus-inset"
-                  style={{
-                    padding: '8px 12px',
-                    color: '#6b7280',
-                    textDecoration: 'none',
-                    borderRadius: '6px',
-                    transition: 'all 0.3s ease',
-                    fontSize: '14px',
-                    fontWeight: '500'
-                  }}
-                >
+                <a href="/login" className="header__icon header__icon--account link focus-inset">
+                  <span className="visually-hidden">Account</span>
                   Account
                 </a>
                 
                 {/* Cart */}
-                <a 
-                  href="/cart" 
-                  className="header__icon header__icon--cart link focus-inset" 
-                  id="cart-icon-bubble"
-                  style={{
-                    padding: '8px 12px',
-                    color: '#6b7280',
-                    textDecoration: 'none',
-                    borderRadius: '6px',
-                    transition: 'all 0.3s ease',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    position: 'relative'
-                  }}
-                >
+                <a href="/cart" className="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+                  <span className="visually-hidden">Cart</span>
                   Cart
                   {/* Cart count bubble */}
-                  <div 
-                    className="cart-count-bubble"
-                    style={{
-                      position: 'absolute',
-                      top: '-5px',
-                      right: '-5px',
-                      backgroundColor: '#ef4444',
-                      color: 'white',
-                      fontSize: '12px',
-                      borderRadius: '50%',
-                      width: '20px',
-                      height: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <span aria-hidden="true">0</span>
+                  <div className="cart-count-bubble">
+                    <span aria-hidden="true">{cartCount || 0}</span>
                   </div>
                 </a>
               </div>
@@ -290,6 +206,8 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
         </div>
         
         {/* Sticky behavior handled by CSS position: sticky */}
+        
+
       </div>
     );
   },
