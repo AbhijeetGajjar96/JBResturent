@@ -10,17 +10,7 @@ interface Props {
   banner?: React.ComponentPropsWithoutRef<typeof Banner>;
 }
 
-// WhatsApp floating button component
-const WhatsAppButton = () => (
-  <div className="whatsapp_fix active" aria-hidden="false">
-    <a href="#" className="whatsapp-link">
-      <img 
-        src="/images/whatsapp-icon.png" 
-        alt="WhatsApp"
-      />
-    </a>
-  </div>
-);
+// WhatsApp button removed for local development
 
 // Header Drawer Component (Mobile Menu)
 const HeaderDrawer = ({ links }: { links: Array<{ label: string; href: string }> }) => (
@@ -247,9 +237,6 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
       <div ref={ref}>
         {/* CSS imports removed - using inline styles for better control */}
         
-        {/* WhatsApp Button */}
-        <WhatsAppButton />
-        
         {/* Banner */}
         {banner && <Banner ref={setBannerElement} {...banner} />}
         
@@ -267,35 +254,26 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
             margin: '0 auto',
             padding: '0 20px'
           }}>
-            {/* Top Row - Logo and Contact */}
+            {/* Top Row - Logo Centered */}
             <div style={{
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center',
-              padding: '15px 0',
+              padding: '20px 0',
               borderBottom: '1px solid #e9ecef'
             }}>
-              {/* Logo */}
-              <div style={{ flex: '0 0 auto' }}>
+              {/* Logo - Centered */}
+              <div style={{ textAlign: 'center' }}>
                 <a href="/" style={{ textDecoration: 'none', color: '#2c3e50' }}>
                   <div style={{
-                    fontSize: '28px',
+                    fontSize: '32px',
                     fontWeight: 'bold',
-                    color: '#e67e22'
+                    color: '#e67e22',
+                    textAlign: 'center'
                   }}>
                     🍽️ JBResturent
                   </div>
                 </a>
-              </div>
-              
-              {/* Contact Info - Can be made dynamic later */}
-              <div style={{
-                display: 'flex',
-                gap: '20px',
-                fontSize: '14px',
-                color: '#6c757d'
-              }}>
-                {/* Contact info can be added here dynamically */}
               </div>
             </div>
             
