@@ -18,28 +18,6 @@ import { search } from './_actions/search';
 import { switchCurrency } from './_actions/switch-currency';
 import { HeaderFragment, HeaderLinksFragment } from './fragment';
 
-// Simple CSS imports without onLoad handlers
-const HeaderStyles = () => (
-  <>
-    <link rel="stylesheet" href="/styles/component-list-menu.css" />
-    <link rel="stylesheet" href="/styles/component-search.css" />
-    <link rel="stylesheet" href="/styles/component-menu-drawer.css" />
-    <link rel="stylesheet" href="/styles/component-cart-notification.css" />
-    <link rel="stylesheet" href="/styles/component-price.css" />
-    <link rel="stylesheet" href="/styles/component-mega-menu.css" />
-    <link rel="stylesheet" href="/styles/header-enhanced.css" />
-  </>
-);
-
-// WhatsApp floating button component
-const WhatsAppButton = () => (
-  <div className="whatsapp_fix active" aria-hidden="false">
-    <a href="https://api.whatsapp.com/send?phone=919876543210&text=Hi, I would like to order from JBResturent">
-      <img src="https://cdn.shopify.com/s/files/1/0790/5889/5154/files/whatsapp_icon_22271a5f-abce-4891-ae16-688c59f72375.png?v=1689142834" alt="WhatsApp" />
-    </a>
-  </div>
-);
-
 const GetCartCountQuery = graphql(`
   query GetCartCountQuery($cartId: String) {
     site {
@@ -160,33 +138,30 @@ export const Header = async () => {
   });
 
   return (
-    <>
-      <HeaderStyles />
-      <HeaderSection
-        navigation={{
-          accountHref: '/login',
-          accountLabel: t('Icons.account'),
-          cartHref: '/cart',
-          cartLabel: t('Icons.cart'),
-          searchHref: '/search',
-          searchParamName: 'term',
-          searchAction: search,
-          searchInputPlaceholder: t('Search.inputPlaceholder'),
-          searchSubmitLabel: t('Search.submitLabel'),
-          links: streamableLinks,
-          logo,
-          mobileMenuTriggerLabel: t('toggleNavigation'),
-          openSearchPopupLabel: t('Icons.search'),
-          logoLabel: t('home'),
-          cartCount: streamableCartCount,
-          activeLocaleId: locale,
-          locales,
-          currencies,
-          activeCurrencyId: streamableActiveCurrencyId,
-          currencyAction: switchCurrency,
-          switchCurrencyLabel: t('SwitchCurrency.label'),
-        }}
-      />
-    </>
+    <HeaderSection
+      navigation={{
+        accountHref: '/login',
+        accountLabel: t('Icons.account'),
+        cartHref: '/cart',
+        cartLabel: t('Icons.cart'),
+        searchHref: '/search',
+        searchParamName: 'term',
+        searchAction: search,
+        searchInputPlaceholder: t('Search.inputPlaceholder'),
+        searchSubmitLabel: t('Search.submitLabel'),
+        links: streamableLinks,
+        logo,
+        mobileMenuTriggerLabel: t('toggleNavigation'),
+        openSearchPopupLabel: t('Icons.search'),
+        logoLabel: t('home'),
+        cartCount: streamableCartCount,
+        activeLocaleId: locale,
+        locales,
+        currencies,
+        activeCurrencyId: streamableActiveCurrencyId,
+        currencyAction: switchCurrency,
+        switchCurrencyLabel: t('SwitchCurrency.label'),
+      }}
+    />
   );
 };
