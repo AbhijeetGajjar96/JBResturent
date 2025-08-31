@@ -1,0 +1,62 @@
+/* Component Price Styles */
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.price__regular {
+  color: var(--color-text);
+}
+
+.price__sale {
+  color: var(--color-accent);
+}
+
+.price__compare {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+  font-size: 0.875em;
+}
+
+.price__badge {
+  background: var(--color-accent);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.price__unit {
+  font-size: 0.875em;
+  color: var(--color-text-muted);
+}
+
+.price--on-sale .price__regular {
+  display: none;
+}
+
+.price--on-sale .price__sale {
+  display: inline;
+}
+
+.price--unavailable {
+  color: var(--color-text-muted);
+}
+
+.price--unavailable .price__regular,
+.price--unavailable .price__sale {
+  display: none;
+}
+
+.price--unavailable .price__unavailable {
+  display: inline;
+}
+
+.price__unavailable {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
