@@ -1,0 +1,131 @@
+/* Component Mega Menu Styles */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-background);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.mega-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mega-menu__container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.mega-menu__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.mega-menu__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.mega-menu__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-menu__item {
+  margin-bottom: 0.5rem;
+}
+
+.mega-menu__link {
+  color: var(--color-text);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.mega-menu__link:hover {
+  color: var(--color-accent);
+}
+
+.mega-menu__featured {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.mega-menu__featured-image {
+  width: 100%;
+  max-width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.mega-menu__featured-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.mega-menu__featured-description {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.mega-menu__featured-button {
+  background: var(--color-accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.mega-menu__featured-button:hover {
+  background: var(--color-accent-hover);
+}
+
+@media screen and (max-width: 990px) {
+  .mega-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border-top: none;
+    border-left: 1px solid var(--color-border);
+  }
+  
+  .mega-menu__container {
+    padding: 1rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .mega-menu__featured {
+    grid-column: span 1;
+  }
+}

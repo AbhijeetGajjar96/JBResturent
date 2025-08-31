@@ -1,0 +1,70 @@
+/* Component Menu Drawer Styles */
+header-drawer {
+  justify-self: start;
+  margin-left: -1.2rem;
+}
+
+.menu-drawer-container {
+  display: flex;
+  position: relative;
+}
+
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-drawer.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-drawer__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background: var(--color-background);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.menu-drawer.active .menu-drawer__content {
+  transform: translateX(0);
+}
+
+.menu-drawer__header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-drawer__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.menu-drawer__navigation {
+  padding: 1rem;
+}
+
+@media screen and (min-width: 990px) {
+  header-drawer {
+    display: none;
+  }
+}

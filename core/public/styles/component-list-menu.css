@@ -1,0 +1,42 @@
+/* Component List Menu Styles */
+.list-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-menu--inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.list-menu__item {
+  display: flex;
+  align-items: center;
+  line-height: calc(1 + 0.3 / var(--font-body-scale, 1));
+}
+
+.list-menu__item--link {
+  text-decoration: none;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+
+.list-menu__item--link:hover {
+  color: var(--color-accent);
+}
+
+summary.list-menu__item {
+  padding-right: 2.7rem;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 750px) {
+  .list-menu__item--link {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+  }
+}
