@@ -102,6 +102,9 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
     const [bannerHeight, setBannerHeight] = useState(0);
     const [links, setLinks] = useState<Array<{ label: string; href: string }>>([]);
 
+    // Ensure links is always an array to prevent rendering errors
+    const safeLinks = Array.isArray(links) ? links : [];
+
     useEffect(() => {
       if (!bannerElement) return;
 
@@ -141,10 +144,6 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
 
     return (
       <div ref={ref}>
-        {/* CSS imports for header styling */}
-        <link rel="stylesheet" href="/styles/base.css" />
-        <link rel="stylesheet" href="/styles/header-main.css" />
-        
         {/* Banner */}
         {banner && <Banner ref={setBannerElement} {...banner} />}
         
@@ -153,27 +152,32 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
           <div className="header-wrapper header-wrapper--border-bottom">
             <header className="header header--middle-center page-width header--has-menu">
               {/* Header Drawer (Mobile Menu) */}
-              <HeaderDrawer links={links} />
+              <HeaderDrawer links={safeLinks} />
               
               {/* Header Search for top-center logo position */}
               <HeaderSearch inputId="Search-In-Modal-1" searchPlaceholder={searchPlaceholder} />
               
-              {/* Logo - Top section (not middle-center) */}
-              
-              
               {/* Navigation Menu - Dropdown style */}
-              <HeaderDropdownMenu links={links} />
+              <HeaderDropdownMenu links={safeLinks} />
               
               {/* Logo - Middle section (middle-center position) */}
               <div className="header__heading">
-                <Logo
-                  className="header__heading-link link link--text focus-inset"
-                  href={logoHref}
-                  label={logoLabel}
-                  logo={logo}
-                  width={120}
-                  height={40}
-                />
+                {logo ? (
+                  <Logo
+                    className="header__heading-link link link--text focus-inset"
+                    href={logoHref}
+                    label={logoLabel}
+                    logo={logo}
+                    width={120}
+                    height={40}
+                  />
+                ) : (
+                  <a href={logoHref} className="header__heading-link link link--text focus-inset">
+                    <div className="header__heading-logo-wrapper">
+                      <span className="h2">{logoLabel}</span>
+                    </div>
+                  </a>
+                )}
               </div>
               
               {/* Header Icons - Exact Shopify structure */}
@@ -206,8 +210,6 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
         </div>
         
         {/* Sticky behavior handled by CSS position: sticky */}
-        
-
       </div>
     );
   },
