@@ -13,9 +13,9 @@ interface Props {
 // WhatsApp floating button component
 const WhatsAppButton = () => (
   <div className="whatsapp_fix active" aria-hidden="false">
-    <a href="https://api.whatsapp.com/send?phone=919876543210&text=Hi, I would like to order from JBResturent">
+    <a href="#" className="whatsapp-link">
       <img 
-        src="https://cdn.shopify.com/s/files/1/0790/5889/5154/files/whatsapp_icon_22271a5f-abce-4891-ae16-688c59f72375.png?v=1689142834" 
+        src="/images/whatsapp-icon.png" 
         alt="WhatsApp"
       />
     </a>
@@ -24,29 +24,66 @@ const WhatsAppButton = () => (
 
 // Header Drawer Component (Mobile Menu)
 const HeaderDrawer = ({ links }: { links: Array<{ label: string; href: string }> }) => (
-  <div className="header-drawer small-hide medium-hide">
-    <details id="Details-menu-drawer-container" className="menu-drawer-container">
-      <summary className="header__icon header__icon--menu header__icon--summary link focus-inset" aria-label="Menu" role="button" aria-expanded="false">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M1 1H17M1 9H17M1 17H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  <div style={{ display: 'block' }}>
+    <details id="Details-menu-drawer-container" style={{ position: 'relative' }}>
+      <summary style={{
+        padding: '8px',
+        cursor: 'pointer',
+        color: '#6c757d',
+        borderRadius: '4px',
+        transition: 'all 0.3s ease',
+        listStyle: 'none'
+      }} onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = '#f8f9fa';
+        e.currentTarget.style.color = '#495057';
+      }} onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'transparent';
+        e.currentTarget.style.color = '#6c757d';
+      }} aria-label="Menu" role="button" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M1 1H19M1 10H19M1 19H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </summary>
-      <div id="menu-drawer" className="menu-drawer motion-reduce">
-        <div className="menu-drawer__inner-container">
-          <div className="menu-drawer__navigation-container">
-            <nav className="menu-drawer__navigation">
-              <ul className="menu-drawer__menu has-submenu list-menu">
-                {links.map((link, index) => (
-                  <li key={index}>
-                    <a href={link.href} className="menu-drawer__menu-item list-menu__item link link--text focus-inset">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </div>
+      <div style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        backgroundColor: 'white',
+        border: '1px solid #dee2e6',
+        borderRadius: '8px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        minWidth: '200px',
+        zIndex: 1000,
+        padding: '10px 0'
+      }}>
+        <nav>
+          <ul style={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0
+          }}>
+            {links.map((link, index) => (
+              <li key={index}>
+                <a href={link.href} style={{
+                  display: 'block',
+                  padding: '12px 20px',
+                  textDecoration: 'none',
+                  color: '#495057',
+                  fontSize: '14px',
+                  transition: 'all 0.3s ease'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f8f9fa';
+                  e.currentTarget.style.color = '#e67e22';
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#495057';
+                }}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </details>
   </div>
@@ -54,42 +91,74 @@ const HeaderDrawer = ({ links }: { links: Array<{ label: string; href: string }>
 
 // Header Search Component
 const HeaderSearch = ({ inputId }: { inputId: string }) => (
-  <div className="header__search small-hide medium-hide">
+  <div style={{ position: 'relative' }}>
     <details>
-      <summary className="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-label="Search" aria-expanded="false">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M17 17L13 13M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <summary style={{
+        padding: '8px',
+        cursor: 'pointer',
+        color: '#6c757d',
+        borderRadius: '4px',
+        transition: 'all 0.3s ease',
+        listStyle: 'none'
+      }} onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = '#f8f9fa';
+        e.currentTarget.style.color = '#495057';
+      }} onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'transparent';
+        e.currentTarget.style.color = '#6c757d';
+      }} aria-label="Search" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M21 21L16.65 16.65M19 10.5A8.5 8.5 0 1 1 10.5 2A8.5 8.5 0 0 1 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </summary>
-      <div className="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="Search">
-        <div className="modal__overlay"></div>
-        <div className="search-modal__content" tabIndex={-1}>
-          <form className="search-modal__form" action="/search" method="get" role="search">
-            <div className="field">
-              <input 
-                className="search__input field__input" 
-                id={inputId}
-                name="q" 
-                defaultValue="" 
-                placeholder="Search" 
-                role="combobox" 
-                aria-expanded="false" 
-                aria-owns="predictive-search-results" 
-                aria-controls="predictive-search-results" 
-                aria-haspopup="listbox" 
-                aria-autocomplete="list" 
-                aria-label="Search" 
-                aria-labelledby="Search-In-Modal"
-              />
-              <label className="field__label" htmlFor={inputId}>Search</label>
-              <button type="submit" className="search__button field__button" aria-label="Search">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M17 17L13 13M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </div>
-          </form>
-        </div>
+      <div style={{
+        position: 'absolute',
+        top: '100%',
+        right: 0,
+        backgroundColor: 'white',
+        border: '1px solid #dee2e6',
+        borderRadius: '8px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        minWidth: '300px',
+        zIndex: 1000,
+        padding: '20px'
+      }} role="dialog" aria-modal="true" aria-label="Search">
+        <form action="/search" method="get" role="search">
+          <div style={{ position: 'relative' }}>
+            <input 
+              style={{
+                width: '100%',
+                padding: '12px 40px 12px 12px',
+                border: '1px solid #dee2e6',
+                borderRadius: '6px',
+                fontSize: '14px',
+                outline: 'none'
+              }}
+              id={inputId}
+              name="q" 
+              defaultValue="" 
+              placeholder="Search for food, drinks..." 
+              role="combobox" 
+              aria-expanded="false" 
+              aria-label="Search" 
+            />
+            <button type="submit" style={{
+              position: 'absolute',
+              right: '8px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '4px',
+              color: '#6c757d'
+            }} aria-label="Search">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M21 21L16.65 16.65M19 10.5A8.5 8.5 0 1 1 10.5 2A8.5 8.5 0 0 1 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </form>
       </div>
     </details>
   </div>
@@ -97,12 +166,33 @@ const HeaderSearch = ({ inputId }: { inputId: string }) => (
 
 // Header Dropdown Menu Component
 const HeaderDropdownMenu = ({ links }: { links: Array<{ label: string; href: string }> }) => (
-  <nav className="header__inline-menu">
-    <ul className="list-menu list-menu--inline" role="list">
+  <nav style={{ display: 'flex', alignItems: 'center' }}>
+    <ul style={{
+      display: 'flex',
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+      gap: '30px'
+    }} role="list">
       {links.map((link, index) => (
         <li key={index}>
-          <a href={link.href} className="header__menu-item list-menu__item link link--text focus-inset">
-            <span>{link.label}</span>
+          <a href={link.href} style={{
+            textDecoration: 'none',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '500',
+            padding: '10px 15px',
+            borderRadius: '6px',
+            transition: 'all 0.3s ease',
+            display: 'block'
+          }} onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#e67e22';
+            e.currentTarget.style.color = 'white';
+          }} onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = '#495057';
+          }}>
+            {link.label}
           </a>
         </li>
       ))}
@@ -145,13 +235,8 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
             }
           } catch (error) {
             console.warn('Could not extract navigation links:', error);
-            // Fallback to default links
-            setLinks([
-              { label: 'Home', href: '/' },
-              { label: 'Menu', href: '/menu' },
-              { label: 'About', href: '/about' },
-              { label: 'Contact', href: '/contact' }
-            ]);
+            // Fallback to empty links if navigation data is unavailable
+            setLinks([]);
           }
         };
         extractLinks();
@@ -160,14 +245,7 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
 
     return (
       <div ref={ref}>
-        {/* CSS imports for Shopify-style components */}
-        <link rel="stylesheet" href="/styles/component-list-menu.css" />
-        <link rel="stylesheet" href="/styles/component-search.css" />
-        <link rel="stylesheet" href="/styles/component-menu-drawer.css" />
-        <link rel="stylesheet" href="/styles/component-cart-notification.css" />
-        <link rel="stylesheet" href="/styles/component-price.css" />
-        <link rel="stylesheet" href="/styles/component-mega-menu.css" />
-        <link rel="stylesheet" href="/styles/header-enhanced.css" />
+        {/* CSS imports removed - using inline styles for better control */}
         
         {/* WhatsApp Button */}
         <WhatsAppButton />
@@ -175,184 +253,139 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
         {/* Banner */}
         {banner && <Banner ref={setBannerElement} {...banner} />}
         
-        {/* Exact Shopify Header Structure */}
-        <div data-sticky-type="always" className="section-header">
-          <div className="header-wrapper color-scheme-1 gradient header-wrapper--border-bottom">
-            <header className="header header--middle-center header--mobile-center page-width header--has-menu">
-              {/* Header Drawer (Mobile Menu) */}
-              <HeaderDrawer links={links} />
-              
-              {/* Header Search for top-center logo position */}
-              <HeaderSearch inputId="Search-In-Modal-1" />
-              
-              {/* Logo - Top section (not middle-center) */}
-              <div className="header__heading">
-                <a href="/" className="header__heading-link link link--text focus-inset">
-                  <div className="header__heading-logo-wrapper">
-                    <span className="h2">JBResturent</span>
+        {/* Professional Header with Proper Layout */}
+        <header style={{
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+          borderBottom: '2px solid #dee2e6',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000
+        }}>
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 20px'
+          }}>
+            {/* Top Row - Logo and Contact */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '15px 0',
+              borderBottom: '1px solid #e9ecef'
+            }}>
+              {/* Logo */}
+              <div style={{ flex: '0 0 auto' }}>
+                <a href="/" style={{ textDecoration: 'none', color: '#2c3e50' }}>
+                  <div style={{
+                    fontSize: '28px',
+                    fontWeight: 'bold',
+                    color: '#e67e22'
+                  }}>
+                    🍽️ JBResturent
                   </div>
                 </a>
               </div>
               
-              {/* Navigation Menu - Dropdown style */}
-              <HeaderDropdownMenu links={links} />
-              
-              {/* Logo - Middle section (middle-center position) */}
-              <div className="header__heading">
-                <a href="/" className="header__heading-link link link--text focus-inset">
-                  <div className="header__heading-logo-wrapper">
-                    <span className="h2">JBResturent</span>
-                  </div>
-                </a>
+              {/* Contact Info - Can be made dynamic later */}
+              <div style={{
+                display: 'flex',
+                gap: '20px',
+                fontSize: '14px',
+                color: '#6c757d'
+              }}>
+                {/* Contact info can be added here dynamically */}
+              </div>
+            </div>
+            
+            {/* Main Navigation Row */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '15px 0'
+            }}>
+              {/* Left - Mobile Menu */}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <HeaderDrawer links={links} />
               </div>
               
-              {/* Header Icons - Exact Shopify structure */}
-              <div className="header__icons header__icons--localization header-localization">
-                <div className="desktop-localization-wrapper">
-                  {/* Country/Language selectors can be added here */}
-                </div>
-                
-                {/* Header Search */}
+              {/* Center - Navigation Menu */}
+              <div style={{ flex: '1', display: 'flex', justifyContent: 'center' }}>
+                <HeaderDropdownMenu links={links} />
+              </div>
+              
+              {/* Right - Header Icons */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '15px'
+              }}>
+                {/* Search */}
                 <HeaderSearch inputId="Search-In-Modal" />
                 
                 {/* Account */}
-                <a href="/login" className="header__icon header__icon--account link focus-inset">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <a href="/login" style={{
+                  padding: '8px',
+                  color: '#6c757d',
+                  textDecoration: 'none',
+                  borderRadius: '4px',
+                  transition: 'all 0.3s ease'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f8f9fa';
+                  e.currentTarget.style.color = '#495057';
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#6c757d';
+                }}>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M16 17V15C16 13.9391 15.5786 12.9217 14.8284 12.1716C14.0783 11.4214 13.0609 11 12 11H8C6.93913 11 5.92172 11.4214 5.17157 12.1716C4.42143 12.9217 4 13.9391 4 15V17M12 7C12 9.20914 10.2091 11 8 11C5.79086 11 4 9.20914 4 7C4 4.79086 5.79086 3 8 3C10.2091 3 12 4.79086 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  <span className="visually-hidden">Account</span>
                 </a>
                 
                 {/* Cart */}
-                <a href="/cart" className="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <a href="/cart" style={{
+                  padding: '8px',
+                  color: '#6c757d',
+                  textDecoration: 'none',
+                  borderRadius: '4px',
+                  position: 'relative',
+                  transition: 'all 0.3s ease'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f8f9fa';
+                  e.currentTarget.style.color = '#495057';
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#6c757d';
+                }}>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 17.6 16.6 18 16 18H8C7.4 18 7 17.6 7 17V13H17Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  <span className="visually-hidden">Cart</span>
-                  {/* Cart count bubble */}
-                  <div className="cart-count-bubble">
-                    <span aria-hidden="true">0</span>
+                  {/* Cart count badge */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '-5px',
+                    right: '-5px',
+                    backgroundColor: '#e74c3c',
+                    color: 'white',
+                    fontSize: '12px',
+                    borderRadius: '50%',
+                    width: '20px',
+                    height: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    0
                   </div>
                 </a>
               </div>
-            </header>
+            </div>
           </div>
-        </div>
+        </header>
         
-        {/* Sticky Header JavaScript functionality */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            class StickyHeader extends HTMLElement {
-              constructor() {
-                super();
-              }
-
-              connectedCallback() {
-                this.header = document.querySelector('.section-header');
-                this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always';
-                this.headerBounds = {};
-                this.currentScrollTop = 0;
-                this.preventReveal = false;
-                this.predictiveSearch = this.querySelector('predictive-search');
-
-                this.setHeaderHeight();
-                window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
-
-                if (this.headerIsAlwaysSticky) {
-                  this.header.classList.add('shopify-section-header-sticky');
-                }
-
-                this.onScrollHandler = this.onScroll.bind(this);
-                this.hideHeaderOnScrollUp = () => this.preventReveal = true;
-
-                this.addEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
-                window.addEventListener('scroll', this.onScrollHandler, false);
-
-                this.createObserver();
-              }
-
-              setHeaderHeight() {
-                document.documentElement.style.setProperty('--header-height', \`\${this.header.offsetHeight}px\`);
-              }
-
-              disconnectedCallback() {
-                this.removeEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
-                window.removeEventListener('scroll', this.onScrollHandler);
-              }
-
-              createObserver() {
-                let observer = new IntersectionObserver((entries, observer) => {
-                  this.headerBounds = entries[0].intersectionRect;
-                  observer.disconnect();
-                });
-
-                observer.observe(this.header);
-              }
-
-              onScroll() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-                if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
-
-                if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-                  this.header.classList.add('scrolled-past-header');
-                  if (this.preventHide) return;
-                  requestAnimationFrame(this.hide.bind(this));
-                } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-                  this.header.classList.add('scrolled-past-header');
-                  if (!this.preventReveal) {
-                    requestAnimationFrame(this.reveal.bind(this));
-                  } else {
-                    window.clearTimeout(this.isScrolling);
-
-                    this.isScrolling = setTimeout(() => {
-                      this.preventReveal = false;
-                    }, 66);
-
-                    requestAnimationFrame(this.hide.bind(this));
-                  }
-                } else if (scrollTop <= this.headerBounds.top) {
-                  this.header.classList.remove('scrolled-past-header');
-                  requestAnimationFrame(this.reset.bind(this));
-                }
-
-                this.currentScrollTop = scrollTop;
-              }
-
-              hide() {
-                if (this.headerIsAlwaysSticky) return;
-                this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
-                this.closeMenuDisclosure();
-                this.closeSearchModal();
-              }
-
-              reveal() {
-                if (this.headerIsAlwaysSticky) return;
-                this.header.classList.add('shopify-section-header-sticky', 'animate');
-                this.header.classList.remove('shopify-section-header-hidden');
-              }
-
-              reset() {
-                if (this.headerIsAlwaysSticky) return;
-                this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
-              }
-
-              closeMenuDisclosure() {
-                this.disclosures = this.disclosures || this.header.querySelectorAll('header-menu');
-                this.disclosures.forEach(disclosure => disclosure.close());
-              }
-
-              closeSearchModal() {
-                this.searchModal = this.searchModal || this.header.querySelector('details-modal');
-                this.searchModal.close(false);
-              }
-            }
-
-            if (!customElements.get('sticky-header')) {
-              customElements.define('sticky-header', StickyHeader);
-            }
-          `
-        }} />
+        {/* Sticky behavior handled by CSS position: sticky */}
       </div>
     );
   },
