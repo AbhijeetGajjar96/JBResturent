@@ -21,7 +21,7 @@ interface Props {
 
 // Header Drawer Component (Mobile Menu)
 const HeaderDrawer = ({ links }: { links: Array<{ label: string; href: string }> }) => (
-  <div className="header-drawer small-hide medium-hide">
+  <header-drawer className="header-drawer small-hide medium-hide">
     <details id="Details-menu-drawer-container" className="menu-drawer-container">
       <summary className="header__icon header__icon--menu header__icon--summary link focus-inset" aria-label="Menu" role="button" aria-expanded="false">
         Menu
@@ -44,7 +44,7 @@ const HeaderDrawer = ({ links }: { links: Array<{ label: string; href: string }>
         </div>
       </div>
     </details>
-  </div>
+  </header-drawer>
 );
 
 // Header Search Component
@@ -104,6 +104,12 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
 
     // Ensure links is always an array to prevent rendering errors
     const safeLinks = Array.isArray(links) ? links : [];
+    
+    // Ensure all props have safe defaults
+    const safeLogoHref = logoHref || '/';
+    const safeLogoLabel = logoLabel || 'Home';
+    const safeCartCount = typeof cartCount === 'number' ? cartCount : 0;
+    const safeSearchPlaceholder = searchPlaceholder || 'Search';
 
     useEffect(() => {
       if (!bannerElement) return;
@@ -131,14 +137,17 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
             const navLinks = await navigation.links;
             if (Array.isArray(navLinks)) {
               setLinks(navLinks);
+            } else {
+              setLinks([]);
             }
           } catch (error) {
             console.warn('Could not extract navigation links:', error);
-            // Fallback to empty links if navigation data is unavailable
             setLinks([]);
           }
         };
         extractLinks();
+      } else {
+        setLinks([]);
       }
     }, [navigation]);
 
@@ -155,29 +164,18 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
               <HeaderDrawer links={safeLinks} />
               
               {/* Header Search for top-center logo position */}
-              <HeaderSearch inputId="Search-In-Modal-1" searchPlaceholder={searchPlaceholder} />
+              <HeaderSearch inputId="Search-In-Modal-1" searchPlaceholder={safeSearchPlaceholder} />
               
               {/* Navigation Menu - Dropdown style */}
               <HeaderDropdownMenu links={safeLinks} />
               
               {/* Logo - Middle section (middle-center position) */}
               <div className="header__heading">
-                {logo ? (
-                  <Logo
-                    className="header__heading-link link link--text focus-inset"
-                    href={logoHref}
-                    label={logoLabel}
-                    logo={logo}
-                    width={120}
-                    height={40}
-                  />
-                ) : (
-                  <a href={logoHref} className="header__heading-link link link--text focus-inset">
-                    <div className="header__heading-logo-wrapper">
-                      <span className="h2">{logoLabel}</span>
-                    </div>
-                  </a>
-                )}
+                <a href={safeLogoHref} className="header__heading-link link link--text focus-inset">
+                  <div className="header__heading-logo-wrapper">
+                    <span className="h2">{safeLogoLabel}</span>
+                  </div>
+                </a>
               </div>
               
               {/* Header Icons - Exact Shopify structure */}
@@ -187,7 +185,7 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                 </div>
                 
                 {/* Header Search */}
-                <HeaderSearch inputId="Search-In-Modal" searchPlaceholder={searchPlaceholder} />
+                <HeaderSearch inputId="Search-In-Modal" searchPlaceholder={safeSearchPlaceholder} />
                 
                 {/* Account */}
                 <a href="/login" className="header__icon header__icon--account link focus-inset">
@@ -201,7 +199,7 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                   Cart
                   {/* Cart count bubble */}
                   <div className="cart-count-bubble">
-                    <span aria-hidden="true">{cartCount || 0}</span>
+                    <span aria-hidden="true">{safeCartCount}</span>
                   </div>
                 </a>
               </div>
