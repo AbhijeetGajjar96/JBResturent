@@ -28,7 +28,6 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
     const [bannerElement, setBannerElement] = useState<HTMLElement | null>(null);
     const [bannerHeight, setBannerHeight] = useState(0);
     const [isFloating, setIsFloating] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
       if (!bannerElement) return;
@@ -45,16 +44,6 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
         resizeObserver.disconnect();
       };
     }, [bannerElement]);
-
-    useEffect(() => {
-      const handleScroll = () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        setIsScrolled(scrollTop > 100);
-      };
-
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     return (
       <div ref={ref}>
@@ -73,24 +62,11 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
         {/* Banner */}
         {banner && <Banner ref={setBannerElement} {...banner} />}
         
-        {/* Sticky Header with Shopify-style behavior */}
-        <Headroom
-          onUnfix={() => setIsFloating(false)}
-          onUnpin={() => setIsFloating(true)}
-          pinStart={bannerHeight}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1000,
-            transition: 'all 0.3s ease',
-            transform: isScrolled ? 'translateY(0)' : 'translateY(-100%)',
-          }}
-        >
-          <div className={`header-wrapper ${isScrolled ? 'scrolled' : ''}`}>
-            <div className="header header--middle-center page-width">
-              {/* Logo - Center positioned */}
+        {/* Exact Shopify Header Structure */}
+        <div data-sticky-type="always" className="section-header">
+          <div className="header-wrapper color-scheme-1 gradient header-wrapper--border-bottom">
+            <header className="header header--middle-center header--mobile-center page-width header--has-menu">
+              {/* Logo - Center positioned exactly like Shopify */}
               <div className="header__heading">
                 <a href="/" className="header__heading-link link link--text focus-inset">
                   <div className="header__heading-logo-wrapper">
@@ -99,13 +75,13 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                 </a>
               </div>
               
-              {/* Navigation Menu */}
+              {/* Navigation Menu - Using Soul Navigation but with Shopify structure */}
               <div className="header__menu">
                 <Navigation {...navigation} isFloating={isFloating} />
               </div>
               
-              {/* Header Icons */}
-              <div className="header__icons">
+              {/* Header Icons - Exact Shopify structure */}
+              <div className="header__icons header__icons--localization header-localization">
                 {/* Search */}
                 <div className="header__icon header__icon--search">
                   <button className="search-toggle" aria-label="Search">
@@ -135,9 +111,9 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                   </div>
                 </a>
               </div>
-            </div>
+            </header>
           </div>
-        </Headroom>
+        </div>
         
         {/* Sticky Header JavaScript functionality */}
         <script dangerouslySetInnerHTML={{
@@ -148,32 +124,70 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
               }
 
               connectedCallback() {
-                this.header = document.querySelector('.header-wrapper');
+                this.header = document.querySelector('.section-header');
+                this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always';
+                this.headerBounds = {};
                 this.currentScrollTop = 0;
                 this.preventReveal = false;
-                
+                this.predictiveSearch = this.querySelector('predictive-search');
+
+                this.setHeaderHeight();
+                window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
+
+                if (this.headerIsAlwaysSticky) {
+                  this.header.classList.add('shopify-section-header-sticky');
+                }
+
                 this.onScrollHandler = this.onScroll.bind(this);
+                this.hideHeaderOnScrollUp = () => this.preventReveal = true;
+
+                this.addEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
                 window.addEventListener('scroll', this.onScrollHandler, false);
+
+                this.createObserver();
+              }
+
+              setHeaderHeight() {
+                document.documentElement.style.setProperty('--header-height', \`\${this.header.offsetHeight}px\`);
               }
 
               disconnectedCallback() {
+                this.removeEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
                 window.removeEventListener('scroll', this.onScrollHandler);
+              }
+
+              createObserver() {
+                let observer = new IntersectionObserver((entries, observer) => {
+                  this.headerBounds = entries[0].intersectionRect;
+                  observer.disconnect();
+                });
+
+                observer.observe(this.header);
               }
 
               onScroll() {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                if (scrollTop > this.currentScrollTop && scrollTop > 100) {
+
+                if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
+
+                if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
                   this.header.classList.add('scrolled-past-header');
-                  if (!this.preventReveal) {
-                    requestAnimationFrame(this.hide.bind(this));
-                  }
-                } else if (scrollTop < this.currentScrollTop && scrollTop > 100) {
+                  if (this.preventHide) return;
+                  requestAnimationFrame(this.hide.bind(this));
+                } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
                   this.header.classList.add('scrolled-past-header');
                   if (!this.preventReveal) {
                     requestAnimationFrame(this.reveal.bind(this));
+                  } else {
+                    window.clearTimeout(this.isScrolling);
+
+                    this.isScrolling = setTimeout(() => {
+                      this.preventReveal = false;
+                    }, 66);
+
+                    requestAnimationFrame(this.hide.bind(this));
                   }
-                } else if (scrollTop <= 100) {
+                } else if (scrollTop <= this.headerBounds.top) {
                   this.header.classList.remove('scrolled-past-header');
                   requestAnimationFrame(this.reset.bind(this));
                 }
@@ -182,16 +196,31 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
               }
 
               hide() {
+                if (this.headerIsAlwaysSticky) return;
                 this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+                this.closeMenuDisclosure();
+                this.closeSearchModal();
               }
 
               reveal() {
+                if (this.headerIsAlwaysSticky) return;
                 this.header.classList.add('shopify-section-header-sticky', 'animate');
                 this.header.classList.remove('shopify-section-header-hidden');
               }
 
               reset() {
+                if (this.headerIsAlwaysSticky) return;
                 this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+              }
+
+              closeMenuDisclosure() {
+                this.disclosures = this.disclosures || this.header.querySelectorAll('header-menu');
+                this.disclosures.forEach(disclosure => disclosure.close());
+              }
+
+              closeSearchModal() {
+                this.searchModal = this.searchModal || this.header.querySelector('details-modal');
+                this.searchModal.close(false);
               }
             }
 
