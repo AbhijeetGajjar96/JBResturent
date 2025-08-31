@@ -23,6 +23,120 @@ const WhatsAppButton = () => (
   </div>
 );
 
+// Header Drawer Component (Mobile Menu)
+const HeaderDrawer = () => (
+  <div className="header-drawer small-hide medium-hide">
+    <details id="Details-menu-drawer-container" className="menu-drawer-container">
+      <summary className="header__icon header__icon--menu header__icon--summary link focus-inset" aria-label="Menu" role="button" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M1 1H17M1 9H17M1 17H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </summary>
+      <div id="menu-drawer" className="menu-drawer motion-reduce">
+        <div className="menu-drawer__inner-container">
+          <div className="menu-drawer__navigation-container">
+            <nav className="menu-drawer__navigation">
+              <ul className="menu-drawer__menu has-submenu list-menu">
+                <li>
+                  <a href="/" className="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="/menu" className="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                    Menu
+                  </a>
+                </li>
+                <li>
+                  <a href="/about" className="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact" className="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+);
+
+// Header Search Component
+const HeaderSearch = ({ inputId }: { inputId: string }) => (
+  <div className="header__search small-hide medium-hide">
+    <details>
+      <summary className="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-label="Search" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M17 17L13 13M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </summary>
+      <div className="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="Search">
+        <div className="modal__overlay"></div>
+        <div className="search-modal__content" tabIndex={-1}>
+          <form className="search-modal__form" action="/search" method="get" role="search">
+            <div className="field">
+              <input 
+                className="search__input field__input" 
+                id={inputId}
+                name="q" 
+                defaultValue="" 
+                placeholder="Search" 
+                role="combobox" 
+                aria-expanded="false" 
+                aria-owns="predictive-search-results" 
+                aria-controls="predictive-search-results" 
+                aria-haspopup="listbox" 
+                aria-autocomplete="list" 
+                aria-label="Search" 
+                aria-labelledby="Search-In-Modal"
+              />
+              <label className="field__label" htmlFor={inputId}>Search</label>
+              <button type="submit" className="search__button field__button" aria-label="Search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M17 17L13 13M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </details>
+  </div>
+);
+
+// Header Dropdown Menu Component
+const HeaderDropdownMenu = () => (
+  <nav className="header__inline-menu">
+    <ul className="list-menu list-menu--inline" role="list">
+      <li>
+        <a href="/" className="header__menu-item list-menu__item link link--text focus-inset">
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="/menu" className="header__menu-item list-menu__item link link--text focus-inset">
+          <span>Menu</span>
+        </a>
+      </li>
+      <li>
+        <a href="/about" className="header__menu-item list-menu__item link link--text focus-inset">
+          <span>About</span>
+        </a>
+      </li>
+      <li>
+        <a href="/contact" className="header__menu-item list-menu__item link link--text focus-inset">
+          <span>Contact</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+);
+
 export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
   ({ navigation, banner }, ref) => {
     const [bannerElement, setBannerElement] = useState<HTMLElement | null>(null);
@@ -66,7 +180,13 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
         <div data-sticky-type="always" className="section-header">
           <div className="header-wrapper color-scheme-1 gradient header-wrapper--border-bottom">
             <header className="header header--middle-center header--mobile-center page-width header--has-menu">
-              {/* Logo - Center positioned exactly like Shopify */}
+              {/* Header Drawer (Mobile Menu) */}
+              <HeaderDrawer />
+              
+              {/* Header Search for top-center logo position */}
+              <HeaderSearch inputId="Search-In-Modal-1" />
+              
+              {/* Logo - Top section (not middle-center) */}
               <div className="header__heading">
                 <a href="/" className="header__heading-link link link--text focus-inset">
                   <div className="header__heading-logo-wrapper">
@@ -75,25 +195,30 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                 </a>
               </div>
               
-              {/* Navigation Menu - Using Soul Navigation but with Shopify structure */}
-              <div className="header__menu">
-                <Navigation {...navigation} isFloating={isFloating} />
+              {/* Navigation Menu - Dropdown style */}
+              <HeaderDropdownMenu />
+              
+              {/* Logo - Middle section (middle-center position) */}
+              <div className="header__heading">
+                <a href="/" className="header__heading-link link link--text focus-inset">
+                  <div className="header__heading-logo-wrapper">
+                    <span className="h2">JBResturent</span>
+                  </div>
+                </a>
               </div>
               
               {/* Header Icons - Exact Shopify structure */}
               <div className="header__icons header__icons--localization header-localization">
-                {/* Search */}
-                <div className="header__icon header__icon--search">
-                  <button className="search-toggle" aria-label="Search">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M19 19L13 13M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
+                <div className="desktop-localization-wrapper">
+                  {/* Country/Language selectors can be added here */}
                 </div>
+                
+                {/* Header Search */}
+                <HeaderSearch inputId="Search-In-Modal" />
                 
                 {/* Account */}
                 <a href="/login" className="header__icon header__icon--account link focus-inset">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                     <path d="M16 17V15C16 13.9391 15.5786 12.9217 14.8284 12.1716C14.0783 11.4214 13.0609 11 12 11H8C6.93913 11 5.92172 11.4214 5.17157 12.1716C4.42143 12.9217 4 13.9391 4 15V17M12 7C12 9.20914 10.2091 11 8 11C5.79086 11 4 9.20914 4 7C4 4.79086 5.79086 3 8 3C10.2091 3 12 4.79086 12 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <span className="visually-hidden">Account</span>
@@ -101,7 +226,7 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                 
                 {/* Cart */}
                 <a href="/cart" className="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                     <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 17.6 16.6 18 16 18H8C7.4 18 7 17.6 7 17V13H17Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <span className="visually-hidden">Cart</span>
