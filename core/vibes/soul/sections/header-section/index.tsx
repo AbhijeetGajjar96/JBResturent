@@ -134,22 +134,43 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
 
     return (
       <div ref={ref}>
-        {/* CSS imports for Shopify-style components */}
-        <link rel="stylesheet" href="/styles/component-list-menu.css" />
-        <link rel="stylesheet" href="/styles/component-search.css" />
-        <link rel="stylesheet" href="/styles/component-menu-drawer.css" />
-        <link rel="stylesheet" href="/styles/component-cart-notification.css" />
-        <link rel="stylesheet" href="/styles/component-price.css" />
-        <link rel="stylesheet" href="/styles/component-mega-menu.css" />
-        <link rel="stylesheet" href="/styles/header-enhanced.css" />
+        {/* CSS imports for header styling */}
+        <link rel="stylesheet" href="/styles/header-main.css" />
         
         {/* Banner */}
         {banner && <Banner ref={setBannerElement} {...banner} />}
         
-        {/* Shopify-style Header with CSS Classes */}
-        <div data-sticky-type="always" className="section-header">
-          <div className="header-wrapper color-scheme-1 gradient header-wrapper--border-bottom">
-            <header className="header header--middle-center header--mobile-center page-width header--has-menu">
+        {/* Header with CSS Classes and Inline Fallback Styles */}
+        <div 
+          data-sticky-type="always" 
+          className="section-header"
+          style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 1000,
+            background: '#ffffff',
+            borderBottom: '2px solid #e5e7eb',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+          }}
+        >
+          <div 
+            className="header-wrapper"
+            style={{
+              maxWidth: '1200px',
+              margin: '0 auto',
+              padding: '0 20px'
+            }}
+          >
+            <header 
+              className="header"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '15px 0',
+                minHeight: '80px'
+              }}
+            >
               {/* Header Drawer (Mobile Menu) */}
               <HeaderDrawer links={links} />
               
@@ -163,16 +184,44 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
               <HeaderDropdownMenu links={links} />
               
               {/* Logo - Middle section (middle-center position) */}
-              <div className="header__heading">
+              <div 
+                className="header__heading"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1
+                }}
+              >
                 <a href="/" className="header__heading-link link link--text focus-inset">
-                  <div className="header__heading-logo-wrapper">
-                    <span className="h2">🍽️ JBResturent</span>
+                  <div 
+                    className="header__heading-logo-wrapper"
+                    style={{ textAlign: 'center' }}
+                  >
+                    <span 
+                      className="h2"
+                      style={{
+                        fontSize: '32px',
+                        fontWeight: 'bold',
+                        color: '#e67e22',
+                        margin: 0
+                      }}
+                    >
+                      🍽️ JBResturent
+                    </span>
                   </div>
                 </a>
               </div>
               
               {/* Header Icons - Exact Shopify structure */}
-              <div className="header__icons header__icons--localization header-localization">
+              <div 
+                className="header__icons"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '15px'
+                }}
+              >
                 <div className="desktop-localization-wrapper">
                   {/* Country/Language selectors can be added here */}
                 </div>
@@ -181,15 +230,57 @@ export const HeaderSection = forwardRef<React.ComponentRef<'div'>, Props>(
                 <HeaderSearch inputId="Search-In-Modal" />
                 
                 {/* Account */}
-                <a href="/login" className="header__icon header__icon--account link focus-inset">
+                <a 
+                  href="/login" 
+                  className="header__icon header__icon--account link focus-inset"
+                  style={{
+                    padding: '8px 12px',
+                    color: '#6b7280',
+                    textDecoration: 'none',
+                    borderRadius: '6px',
+                    transition: 'all 0.3s ease',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
                   Account
                 </a>
                 
                 {/* Cart */}
-                <a href="/cart" className="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+                <a 
+                  href="/cart" 
+                  className="header__icon header__icon--cart link focus-inset" 
+                  id="cart-icon-bubble"
+                  style={{
+                    padding: '8px 12px',
+                    color: '#6b7280',
+                    textDecoration: 'none',
+                    borderRadius: '6px',
+                    transition: 'all 0.3s ease',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    position: 'relative'
+                  }}
+                >
                   Cart
                   {/* Cart count bubble */}
-                  <div className="cart-count-bubble">
+                  <div 
+                    className="cart-count-bubble"
+                    style={{
+                      position: 'absolute',
+                      top: '-5px',
+                      right: '-5px',
+                      backgroundColor: '#ef4444',
+                      color: 'white',
+                      fontSize: '12px',
+                      borderRadius: '50%',
+                      width: '20px',
+                      height: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
                     <span aria-hidden="true">0</span>
                   </div>
                 </a>
