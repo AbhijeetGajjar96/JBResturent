@@ -9,5 +9,8 @@ export const logoTransformer = (data: ResultOf<typeof StoreLogoFragment>) => {
     return logo.text;
   }
 
-  return { src: logo.image.url, alt: logo.image.altText };
+  // Replace {:size} with actual size for BigCommerce logo URLs
+  const logoUrl = logo.image.url.replace('{:size}', '200x40');
+
+  return { src: logoUrl, alt: logo.image.altText };
 };

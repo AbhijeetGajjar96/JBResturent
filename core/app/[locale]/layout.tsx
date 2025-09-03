@@ -21,6 +21,7 @@ import { WebAnalyticsFragment } from '~/components/analytics/fragment';
 import { AnalyticsProvider } from '~/components/analytics/provider';
 import { ContainerQueryPolyfill } from '~/components/polyfills/container-query';
 import { ScriptManagerScripts, ScriptsFragment } from '~/components/scripts';
+import { JayBharatScripts } from '~/components/jay-bharat-scripts';
 import { routing } from '~/i18n/routing';
 import { SiteTheme } from '~/lib/makeswift/components/site-theme';
 import { MakeswiftProvider } from '~/lib/makeswift/provider';
@@ -119,7 +120,7 @@ export default async function RootLayout({ params, children }: Props) {
 
   return (
     <MakeswiftProvider previewMode={(await draftMode()).isEnabled}>
-      <html className={clsx(fonts.map((f) => f.variable))} lang={locale}>
+      <html className={clsx(fonts.map((f) => f.variable))} lang={locale} suppressHydrationWarning>
         <head>
           <SiteTheme />
           <ScriptManagerScripts
@@ -142,6 +143,7 @@ export default async function RootLayout({ params, children }: Props) {
           </NextIntlClientProvider>
           <VercelComponents />
           <ContainerQueryPolyfill />
+          <JayBharatScripts />
           <ScriptManagerScripts scripts={data.site.content.footerScripts} strategy="lazyOnload" />
         </body>
       </html>

@@ -1,0 +1,254 @@
+/* Jay Bharat Restaurant - Cart Notification Styles from Shopify Theme */
+
+.cart-notification-wrapper {
+  position: relative;
+}
+
+.cart-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 400px;
+  max-width: 90vw;
+  background: var(--jay-bharat-white);
+  border: 2px solid var(--jay-bharat-golden-brown);
+  border-radius: 8px;
+  box-shadow: var(--shadow-xl);
+  padding: 1.5rem;
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.cart-notification.active {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-notification__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cart-notification__heading {
+  display: flex;
+  align-items: center;
+  color: var(--jay-bharat-dark-brown);
+  font-family: var(--font-family-heading);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cart-notification__heading .icon-checkmark {
+  color: var(--jay-bharat-rich-brown);
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
+}
+
+.cart-notification__close {
+  background: none;
+  border: none;
+  color: var(--jay-bharat-dark-brown);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.cart-notification__close:hover {
+  background-color: var(--jay-bharat-cream);
+}
+
+.cart-notification-product {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(55, 36, 30, 0.1);
+  margin-bottom: 1rem;
+}
+
+.cart-notification-product__image {
+  width: 60px;
+  height: 60px;
+  margin-right: 1rem;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cart-notification-product__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-notification-product__details {
+  flex: 1;
+}
+
+.cart-notification-product__name {
+  color: var(--jay-bharat-dark-brown);
+  font-family: var(--font-family-heading);
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.cart-notification-product__price {
+  color: var(--jay-bharat-rich-brown);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cart-notification-product__quantity {
+  color: var(--jay-bharat-terracotta);
+  font-size: 14px;
+  margin-top: 0.25rem;
+}
+
+.cart-notification__links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cart-notification__links .button {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.cart-notification__links .button--primary {
+  background-color: var(--jay-bharat-rich-brown);
+  color: var(--jay-bharat-white);
+}
+
+.cart-notification__links .button--primary:hover {
+  background-color: var(--jay-bharat-terracotta);
+}
+
+.cart-notification__links .button--secondary {
+  background-color: transparent;
+  color: var(--jay-bharat-dark-brown);
+  border-color: var(--jay-bharat-golden-brown);
+}
+
+.cart-notification__links .button--secondary:hover {
+  background-color: var(--jay-bharat-cream);
+  border-color: var(--jay-bharat-rich-brown);
+}
+
+/* Cart Drawer Styles */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 90vw;
+  height: 100vh;
+  background: var(--jay-bharat-white);
+  box-shadow: var(--shadow-xl);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.cart-drawer.active {
+  transform: translateX(0);
+}
+
+.cart-drawer__header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(55, 36, 30, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--jay-bharat-cream);
+}
+
+.cart-drawer__title {
+  color: var(--jay-bharat-dark-brown);
+  font-family: var(--font-family-heading);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cart-drawer__close {
+  background: none;
+  border: none;
+  color: var(--jay-bharat-dark-brown);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.cart-drawer__close:hover {
+  background-color: var(--jay-bharat-white);
+}
+
+.cart-drawer__items {
+  padding: 1rem 1.5rem;
+  flex: 1;
+}
+
+.cart-drawer__footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(55, 36, 30, 0.1);
+  background: var(--jay-bharat-cream);
+}
+
+.cart-drawer__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--jay-bharat-dark-brown);
+}
+
+.cart-drawer__checkout {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--jay-bharat-rich-brown);
+  color: var(--jay-bharat-white);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cart-drawer__checkout:hover {
+  background-color: var(--jay-bharat-terracotta);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .cart-notification {
+    width: calc(100vw - 40px);
+    right: 20px;
+  }
+  
+  .cart-drawer {
+    width: 100vw;
+  }
+}

@@ -90,6 +90,23 @@ export default async (): Promise<NextConfig> => {
     },
     // default URL generation in BigCommerce uses trailing slash
     trailingSlash: process.env.TRAILING_SLASH !== 'false',
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'cdn11.bigcommerce.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn.bigcommerce.com',
+        },
+        // Add other BigCommerce CDN hostnames dynamically
+        ...settings.urls.cdnUrls.map((url) => ({
+          protocol: 'https' as const,
+          hostname: url,
+        })),
+      ],
+    },
     // eslint-disable-next-line @typescript-eslint/require-await
     async headers() {
       const cdnLinks = settings.urls.cdnUrls.map((url) => ({

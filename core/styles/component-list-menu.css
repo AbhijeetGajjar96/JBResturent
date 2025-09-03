@@ -21,12 +21,14 @@
   padding-bottom: 1rem;
   padding-top: 1rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
-  color: var(--color-text);
+  color: #31221b;
+  font-family: 'Montserrat', sans-serif;
   transition: color 0.2s ease;
 }
 
 .list-menu__item--link:hover {
-  color: var(--color-accent);
+  color: #31221b;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 summary.list-menu__item {

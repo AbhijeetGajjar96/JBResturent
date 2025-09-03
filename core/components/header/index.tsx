@@ -12,6 +12,7 @@ import { logoTransformer } from '~/data-transformers/logo-transformer';
 import { routing } from '~/i18n/routing';
 import { getCartId } from '~/lib/cart';
 import { getPreferredCurrencyCode } from '~/lib/currency';
+import { getJayBharatNavigationLinks } from '~/lib/navigation-config';
 import { SiteHeader as HeaderSection } from '~/lib/makeswift/components/site-header';
 
 import { search } from './_actions/search';
@@ -94,27 +95,20 @@ export const Header = async () => {
     : [];
 
   const streamableLinks = Streamable.from(async () => {
-    const customerAccessToken = await getSessionCustomerAccessToken();
+    // Use Jay Bharat navigation configuration instead of BigCommerce categories
+    const navigationLinks = getJayBharatNavigationLinks();
 
-    const categoryTree = await getHeaderLinks(customerAccessToken);
-
-    /**  To prevent the navigation menu from overflowing, we limit the number of categories to 6.
-   To show a full list of categories, modify the `slice` method to remove the limit.
-   Will require modification of navigation menu styles to accommodate the additional categories.
-   */
-    const slicedTree = categoryTree.slice(0, 6);
-
-    return slicedTree.map(({ name, path, children }) => ({
-      label: name,
-      href: path,
-      groups: children.map((firstChild) => ({
-        label: firstChild.name,
-        href: firstChild.path,
-        links: firstChild.children.map((secondChild) => ({
-          label: secondChild.name,
-          href: secondChild.path,
-        })),
-      })),
+    return navigationLinks.map((link) => ({
+      label: link.label,
+      href: link.href,
+      groups: link.children?.map((child) => ({
+        label: child.label,
+        href: child.href,
+        links: child.children?.map((grandChild) => ({
+          label: grandChild.label,
+          href: grandChild.href,
+        })) || [],
+      })) || [],
     }));
   });
 

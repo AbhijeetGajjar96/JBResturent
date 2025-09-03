@@ -291,13 +291,19 @@ export function CartClient<LineItem extends CartLineItem>({
               key={lineItem.id}
             >
               <div className="relative aspect-square w-full max-w-24 overflow-hidden rounded-xl bg-[var(--cart-image-background,hsl(var(--contrast-100)))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cart-focus,hsl(var(--primary)))] focus-visible:ring-offset-4">
-                <Image
-                  alt={lineItem.image.alt}
-                  className="object-cover"
-                  fill
-                  sizes="(min-width: 28rem) 9rem, (min-width: 24rem) 6rem, 100vw"
-                  src={lineItem.image.src}
-                />
+                {lineItem.image?.src ? (
+                  <Image
+                    alt={lineItem.image.alt || 'Product image'}
+                    className="object-cover"
+                    fill
+                    sizes="(min-width: 28rem) 9rem, (min-width: 24rem) 6rem, 100vw"
+                    src={lineItem.image.src}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full bg-gray-200 text-gray-500">
+                    <span className="text-xs">No Image</span>
+                  </div>
+                )}
               </div>
               <div className="flex grow flex-col flex-wrap justify-between gap-y-2 @xl:flex-row">
                 <div className="flex w-full flex-1 flex-col @xl:w-1/2 @xl:pr-4">

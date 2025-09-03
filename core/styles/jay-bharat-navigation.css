@@ -1,0 +1,208 @@
+/* Jay Bharat Restaurant - Navigation Styles from Shopify Theme */
+
+/* Mobile Menu Drawer */
+.menu-drawer {
+  position: absolute;
+  transform: translateX(-100%);
+  visibility: hidden;
+  z-index: 3;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  padding: 0;
+  background-color: var(--jay-bharat-golden-yellow);
+  overflow-x: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-drawer.active {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.menu-drawer__inner-container {
+  padding: 2rem;
+  height: 100%;
+  background-color: var(--jay-bharat-cream);
+}
+
+.menu-drawer__menu-item {
+  display: block;
+  padding: 1rem 0;
+  color: var(--jay-bharat-dark-brown);
+  text-decoration: none;
+  font-family: var(--font-family-heading);
+  font-weight: 600;
+  font-size: 18px;
+  border-bottom: 1px solid rgba(55, 36, 30, 0.1);
+  transition: all 0.3s ease;
+}
+
+.menu-drawer__menu-item:hover {
+  color: var(--jay-bharat-rich-brown);
+  background-color: var(--jay-bharat-white);
+  padding-left: 1rem;
+}
+
+/* Header Icon Menu Button */
+.header__icon--menu {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  color: var(--jay-bharat-dark-brown);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.header__icon--menu:hover {
+  color: var(--jay-bharat-rich-brown);
+}
+
+/* Search Modal */
+.search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(55, 36, 30, 0.8);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-modal__content {
+  background: var(--jay-bharat-white);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-xl);
+}
+
+.search__input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--jay-bharat-golden-brown);
+  border-radius: 6px;
+  font-size: 16px;
+  color: var(--jay-bharat-dark-brown);
+  background: var(--jay-bharat-cream);
+}
+
+.search__input:focus {
+  outline: none;
+  border-color: var(--jay-bharat-rich-brown);
+  box-shadow: 0 0 0 3px rgba(126, 80, 57, 0.1);
+}
+
+.search__button {
+  background: var(--jay-bharat-rich-brown);
+  color: var(--jay-bharat-white);
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.search__button:hover {
+  background-color: var(--jay-bharat-terracotta);
+}
+
+/* List Menu Styles */
+.list-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+}
+
+.list-menu__item {
+  position: relative;
+}
+
+.list-menu__item .link {
+  color: var(--jay-bharat-dark-brown);
+  text-decoration: none;
+  font-family: var(--font-family-heading);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.list-menu__item .link:hover {
+  background-color: var(--jay-bharat-white);
+  color: var(--jay-bharat-rich-brown);
+}
+
+.list-menu__item--active .link {
+  color: var(--jay-bharat-rich-brown);
+  background-color: var(--jay-bharat-cream);
+}
+
+/* Header Icons */
+.header__icon {
+  width: 24px;
+  height: 24px;
+  color: var(--jay-bharat-dark-brown);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.header__icon:hover {
+  color: var(--jay-bharat-rich-brown);
+  background-color: var(--jay-bharat-white);
+}
+
+/* Cart Count Badge */
+.cart-count-bubble {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--jay-bharat-rich-brown);
+  color: var(--jay-bharat-white);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 990px) {
+  .list-menu {
+    display: none;
+  }
+  
+  .header__icon--menu {
+    display: block;
+  }
+}
+
+@media (min-width: 991px) {
+  .header__icon--menu {
+    display: none;
+  }
+}

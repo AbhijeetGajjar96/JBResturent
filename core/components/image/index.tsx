@@ -22,8 +22,13 @@ function shouldUseLoaderProp(props: ImageProps): boolean {
  *
  * @returns {React.ReactElement} The `<Image>` component
  */
-export const Image = ({ ...props }: ImageProps) => {
+export const Image = ({ src, ...props }: ImageProps) => {
+  // Don't render the image if src is empty or undefined
+  if (!src || src === '') {
+    return null;
+  }
+
   const loader = shouldUseLoaderProp(props) ? bcCdnImageLoader : undefined;
 
-  return <NextImage loader={loader} {...props} />;
+  return <NextImage loader={loader} src={src} {...props} />;
 };
